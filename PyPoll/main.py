@@ -6,15 +6,9 @@ file_to_output = os.path.join("Analysis", "election_analysis.txt")
 
 total_votes = 0
 
-candidates = {
-    
-}
+candidates = {}
+message = ""
 
-
-# khan_count = 0
-# correy_count = 0
-# li_count = 0
-# otool_count = 0
 
 with open(file_to_load) as election_data :
     reader = csv.reader(election_data)
@@ -36,26 +30,23 @@ with open(file_to_load) as election_data :
 
 
 
-#         if row[2] == "Khan" :
-#             khan_count = khan_count + 1
 
-#         if row[2] == "Correy" :
-#             correy_count = correy_count +1
+message = "Election Results" + "\n"
+message += "Total Votes: " + str(total_votes) + "\n"
 
-#         if row[2] == "Li" :
-#             li_count = li_count + 1
-
-#         if row[2] == "O'Tooley" :
-#             otool_count = otool_count + 1
-
-print(total_votes)
-# print(khan_count)
-# print(correy_count)
-# print(li_count)
-# print(otool_count)
 
 for candidate_name, vote_count in candidates.items() :
-    print(f'{candidate_name}: {vote_count}')
+    percentage = "{0:.3f}%".format(( vote_count / total_votes ) * 100)
+    
+    winner = max(candidates, key=candidates.get)
+
+    results = (f'{candidate_name}: {vote_count}, {percentage}')
+    message += results + "\n"
+
+message += "Winner: " + winner
+print(message)
 
 
-print(candidates)
+
+with open(file_to_output, "w") as txt_file:
+    txt_file.write(message)
